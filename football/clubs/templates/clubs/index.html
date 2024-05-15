@@ -1,0 +1,57 @@
+<!-- templates/clubs/index.html -->
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <title>Clubs et Joueurs</title>
+</head>
+<body>
+    <div class="container">
+        <h1>Clubs et Joueurs</h1>
+        
+        <!-- Formulaire pour ajouter un club -->
+        <h2>Ajouter un Club</h2>
+        <form method="post" action="{% url 'index' %}">
+            {% csrf_token %}
+            {{ club_form.as_p }}
+            <button type="submit" name="ajouter_club">Sauvegarder</button>
+        </form>
+
+        <!-- Formulaire pour ajouter un joueur -->
+        <h2>Ajouter un Joueur</h2>
+        <form method="post" action="{% url 'index' %}">
+            {% csrf_token %}
+            {{ joueur_form.as_p }}
+            <button type="submit" name="ajouter_joueur">Sauvegarder</button>
+        </form>
+
+        <!-- Liste des clubs -->
+        <h2>Liste des Clubs</h2>
+        <ul>
+            {% for club in clubs %}
+                <li>
+                    {{ club.nom }} - Ville : {{ club.ville }} - Fondé en : {{ club.date_fondation }}
+                    <a href="{% url 'modifier_club' club.id %}">Modifier</a>
+                    <a href="{% url 'supprimer_club' club.id %}">Supprimer</a>
+                </li>
+            {% endfor %}
+        </ul>
+
+        <!-- Liste des joueurs -->
+        <h2>Liste des Joueurs</h2>
+        <ul>
+            {% for joueur in joueurs %}
+                <li>
+                    {{ joueur.nom }} - Position : {{ joueur.position }} - Club : {{ joueur.club.nom }}
+                    <a href="{% url 'modifier_joueur' joueur.id %}">Modifier</a>
+                    <a href="{% url 'supprimer_joueur' joueur.id %}">Supprimer</a>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+</body>
+</html>
